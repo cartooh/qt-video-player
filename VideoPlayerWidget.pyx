@@ -118,7 +118,7 @@ class VideoPlayerWidget(QtWidgets.QWidget):
         prevBtn.setStatusTip("Previous Frame")
         prevBtn.setFixedSize(24, 24)
         prevBtn.setShortcut(QtCore.Qt.Key.Key_Left)
-        prevBtn.clicked.connect(lambda: self._movePositionSlider(-1))
+        prevBtn.clicked.connect(lambda _: self._movePositionSlider(-1))
         
         # 制御ボタン。後でlayoutに追加する用
         ctrlBtn = [self._playButton, prevBtn, nextBtn]
@@ -130,7 +130,7 @@ class VideoPlayerWidget(QtWidgets.QWidget):
             btn.setToolTip(f"Seek approx. {s:+}s")
             btn.setStatusTip(f"Seek approx. {s:+}s")
             btn.setFixedSize(30, 24)
-            btn.clicked.connect(lambda *, s=s: self._movePositionSlider(s * self._videoFPS))
+            btn.clicked.connect(lambda _, *, s=s: self._movePositionSlider(s * self._videoFPS))
             ctrlBtn += [btn]
         
         # enable/disableを切り替えるため
@@ -391,13 +391,13 @@ class VideoPlayerWidget(QtWidgets.QWidget):
                 b.setEnabled(False)
             self.errorOccurred.emit(f"can't open error: {fileName}")
     
-    def openVideoFile(self):
+    def openVideoFile(self, _):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Open Movie")
         
         if fileName != '':
             self.setVideoFile(fileName)
     
-    def _play(self):
+    def _play(self, _):
         if self._timeLine.state() == QtCore.QTimeLine.State.NotRunning:
             self._resetFPS()
             self._timeLine.start()
